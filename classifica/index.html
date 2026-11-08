@@ -24,6 +24,14 @@
       <h2 id="nomeGioco"></h2>
       <p class="tenue" id="spiegazione"></p>
 
+      <!-- oggi / di sempre -->
+      <div class="opzioni" id="periodo" role="tablist" aria-label="Periodo">
+        <button type="button" role="tab" id="periodoOggi" aria-selected="true">Oggi</button>
+        <button type="button" role="tab" id="periodoSempre" aria-selected="false">Di sempre</button>
+      </div>
+
+      <p class="stato" id="stato" role="status"></p>
+
       <table class="tabella" id="tabella" hidden>
         <thead><tr><th scope="col">#</th><th scope="col">Giocatore</th><th scope="col" id="colonnaPunti"></th></tr></thead>
         <tbody id="righe"></tbody>
@@ -32,8 +40,8 @@
       <div class="vuota" id="vuota" hidden>
         <!-- Tabler: trophy -->
         <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21l8 0"/><path d="M12 17l0 4"/><path d="M7 4l10 0"/><path d="M17 4v8a5 5 0 0 1 -10 0v-8"/><path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>
-        <p><b>La classifica è ancora vuota.</b></p>
-        <p class="tenue">Si riempirà quando il sito sarà online: a fine partita basterà salvare il punteggio con email e nome.</p>
+        <p><b id="vuotaTitolo"></b></p>
+        <p class="tenue" id="vuotaTesto"></p>
       </div>
 
       <div class="tuo" id="tuo" hidden>
@@ -45,6 +53,7 @@
     </section>
   </main>
 
+  <script src="../server.js"></script>
   <script src="classifica.js"></script>
 </body>
 </html>

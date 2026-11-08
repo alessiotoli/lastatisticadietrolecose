@@ -224,3 +224,25 @@ a:focus-visible, button:focus-visible {
   border-radius: var(--s2);
   padding: var(--s2);
 }
+
+/* --- campi dei moduli (es. entrare in classifica) ---
+   16px per il testo: sotto i 16px l'iPhone ingrandisce la pagina quando si tocca il campo */
+.campo { display: grid; gap: var(--s1); margin-bottom: var(--s2); }
+.campo input {
+  min-height: var(--s6);
+  padding: 0 var(--s2);
+  font: 400 16px var(--font);
+  color: var(--testo);
+  background: var(--superficie);
+  border: 1px solid var(--testo-tenue);
+  border-radius: var(--s1);
+}
+.campo input:focus-visible { outline: 2px solid var(--accento); outline-offset: 2px; }
+.consenso {
+  display: flex; align-items: center; gap: var(--s1);
+  min-height: var(--s6); margin-bottom: var(--s2);
+}
+.consenso input { flex: none; width: var(--s3); height: var(--s3); margin: 0; accent-color: var(--accento); }
+.consenso input:focus-visible { outline: 2px solid var(--accento); outline-offset: 2px; }
+.errore-campo { color: var(--sbagliato); margin: 0 0 var(--s2); }
+input:focus-visible { outline: 2px solid var(--accento); outline-offset: 2px; }

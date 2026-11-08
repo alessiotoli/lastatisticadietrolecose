@@ -92,6 +92,29 @@
         <div><span>Giorni di fila</span><strong id="rSerie"></strong></div>
       </div>
 
+      <!-- CLASSIFICA: la prima volta si lasciano nome ed email, poi il punteggio si salva da solo -->
+      <div class="entra" id="entra" hidden>
+        <p class="esito" id="esitoClassifica" role="status" hidden></p>
+
+        <form id="formClassifica" novalidate hidden>
+          <p><b>Entra in classifica</b><br>Lo fai una volta sola: dai giorni dopo il punteggio si salva da solo.</p>
+          <label class="campo">
+            <span>Nome <span class="tenue">(lo vedono tutti)</span></span>
+            <input id="nome" name="nome" maxlength="20" autocomplete="nickname" autocapitalize="words" required>
+          </label>
+          <label class="campo">
+            <span>Email <span class="tenue">(non la vede nessuno)</span></span>
+            <input id="email" name="email" type="email" maxlength="254" autocomplete="email" inputmode="email" required>
+          </label>
+          <label class="consenso">
+            <input id="consenso" type="checkbox" required>
+            <span>Ho letto l'<a href="../privacy/">informativa sulla privacy</a></span>
+          </label>
+          <p class="errore-campo" id="erroreForm" role="alert" hidden></p>
+          <button type="submit" class="bottone chiaro largo" id="salvaClassifica">Salva il punteggio</button>
+        </form>
+      </div>
+
       <div class="fine">
         <button type="button" class="bottone largo" id="condividi"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></svg>Condividi il risultato</button>
         <p class="avviso" id="copiato" hidden>Risultato copiato: incollalo dove vuoi.</p>
@@ -101,6 +124,7 @@
     </section>
   </main>
 
+  <script src="../server.js"></script>
   <script src="logica.js"></script>
   <script src="gioco.js"></script>
 </body>

@@ -156,3 +156,9 @@ body.giocando .intestazione, body.giocando h1, body.giocando .data { display: no
 
 /* il punto di arrivo del focus a fine partita non disegna un riquadro */
 [tabindex="-1"]:focus { outline: none; }
+
+/* --- entrare in classifica, dopo il record --- */
+.entra { padding: var(--s2) 0 0; }
+.entra .esito { text-align: center; margin: 0; }
+.entra .esito .link { min-height: auto; }
+.entra form { padding-top: var(--s1); }

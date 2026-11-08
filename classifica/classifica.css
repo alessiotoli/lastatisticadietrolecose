@@ -42,3 +42,9 @@ h2 { font-size: 24px; margin: 0 0 var(--s1); }
 }
 .tuo span { color: var(--testo-tenue); }
 .tuo strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+.stato { text-align: center; color: var(--testo-tenue); margin: var(--s2) 0 0; }
+.stato[hidden] { display: none; }
+#periodo { margin: var(--s2) 0 0; }
+.tabella { margin-top: var(--s2); }
+.tabella tr.io td { font-weight: 700; }
