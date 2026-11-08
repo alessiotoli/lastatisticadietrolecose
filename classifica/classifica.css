@@ -1,0 +1,44 @@
+/* Pagina delle classifiche. Regole: skill "stile-interfacce". */
+
+h1 { text-align: center; font-size: 24px; margin: 0 0 var(--s3); }
+h2 { font-size: 24px; margin: 0 0 var(--s1); }
+.tenue { color: var(--testo-tenue); }
+.bottone.largo { width: 100%; margin-top: var(--s3); }
+
+/* scelta del gioco */
+.opzioni {
+  display: flex; margin-bottom: var(--s2);
+  border: 1px solid var(--testo); border-radius: var(--s1); overflow: hidden;
+}
+.opzioni[hidden] { display: none; }
+.opzioni button {
+  flex: 1; min-height: var(--s6); padding: 0 var(--s1);
+  font: 400 16px var(--font); color: var(--testo);
+  background: var(--superficie); border: 0; cursor: pointer;
+  touch-action: manipulation;
+}
+.opzioni button + button { border-left: 1px solid var(--testo); }
+.opzioni button[aria-selected="true"] { color: var(--su-accento); background: var(--accento); font-weight: 700; }
+
+/* tabella */
+.tabella { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tabella th { text-align: left; font-weight: 400; color: var(--testo-tenue); padding: var(--s1) 0; border-bottom: 1px solid var(--testo-tenue); }
+.tabella td { padding: var(--s1) 0; border-bottom: 1px solid var(--linea); }
+.tabella th:first-child, .tabella td:first-child { width: var(--s4); }
+.tabella th:last-child, .tabella td:last-child { text-align: right; }
+.tabella td:last-child { font-weight: 700; }
+.tabella tr.io td { background: var(--fondo); }
+
+/* classifica vuota */
+.vuota { text-align: center; padding: var(--s3) 0 0; }
+.vuota .icona { width: var(--s6); height: var(--s6); color: var(--testo-tenue); margin-bottom: var(--s1); }
+.vuota p { margin-bottom: var(--s1); }
+
+/* il tuo record */
+.tuo {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: var(--s2); padding-top: var(--s2);
+  border-top: 1px solid var(--linea);
+}
+.tuo span { color: var(--testo-tenue); }
+.tuo strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }

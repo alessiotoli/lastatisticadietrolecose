@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>La Statistica Dietro Le Cose</title>
+  <meta name="description" content="Giochi e progetti della pagina La Statistica Dietro Le Cose.">
+  <meta property="og:title" content="La Statistica Dietro Le Cose">
+  <meta property="og:description" content="Giochi e progetti per vedere la matematica in azione.">
+  <meta name="theme-color" content="#EAF0F4">
+  <link rel="icon" type="image/png" href="icona.png">
+  <link rel="apple-touch-icon" href="icona.png">
+  <link rel="stylesheet" href="stile.css">
+  <script src="tema.js"></script>
+  <style>
+    .logo {
+      display: block;
+      width: 100%; max-width: 200px; height: auto;
+      margin: 0 auto var(--s3);
+    }
+    /* due versioni del logo: quella giusta per il tema */
+    .logo-scuro { display: none; }
+    :root[data-theme="dark"] .logo-chiaro { display: none; }
+    :root[data-theme="dark"] .logo-scuro { display: block; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .logo-chiaro { display: none; }
+      :root:not([data-theme="light"]) .logo-scuro { display: block; }
+    }
+    h1 { text-align: center; font-size: 24px; margin: 0 0 var(--s1); }
+    .sottotitolo { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s4); }
+
+    .progetti { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+    /* ogni gioco è una scheda da toccare: bordo in rilievo come i bottoni, freccia viola */
+    .progetto {
+      display: flex; align-items: center; gap: var(--s2);
+      padding: var(--s2);
+      text-decoration: none;
+      background: var(--superficie);
+      border: 1px solid var(--testo-tenue);
+      border-bottom-width: var(--rilievo);
+      border-radius: var(--s2);
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .08s, border-bottom-width .08s;
+    }
+    .progetto:active { transform: translateY(3px); border-bottom-width: 1px; margin-bottom: 3px; }
+    @media (hover: hover) { .progetto:hover { background: var(--fondo); } }
+    .progetto .riquadro {
+      flex: none; width: var(--s6); height: var(--s6);
+      display: grid; place-items: center;
+      border: 1px solid var(--linea);
+      border-radius: var(--s1);
+    }
+    .progetto .testo { flex: 1; min-width: 0; }
+    .progetto strong { display: block; font-size: 16px; }
+    .progetto span.descrizione { display: block; font-size: 16px; color: var(--testo-tenue); }
+    .progetto .vai {
+      flex: none; width: var(--s4); height: var(--s4);
+      display: grid; place-items: center;
+      color: var(--su-accento); background: var(--accento);
+      border-radius: 50%;
+    }
+    .progetto .vai .icona { width: 20px; height: 20px; }
+
+    .in-arrivo {
+      text-align: center; color: var(--testo-tenue);
+      padding: var(--s2); border: 1px dashed var(--linea); border-radius: var(--s2);
+    }
+    .classifiche { width: 100%; margin-top: var(--s3); }
+    footer { text-align: center; color: var(--testo-tenue); margin-top: var(--s4); }
+  </style>
+</head>
+<body>
+  <main class="pagina">
+    <img class="logo logo-chiaro" src="logo.png" alt="La Statistica Dietro Le Cose" width="809" height="519">
+    <img class="logo logo-scuro" src="logo-scuro.png" alt="La Statistica Dietro Le Cose" width="809" height="519">
+    <h1>Sfida il caso</h1>
+    <p class="sottotitolo">Una partita al giorno, uguale per tutti: vediamo chi arriva più lontano.</p>
+
+    <ul class="progetti">
+      <!--
+        PER AGGIUNGERE UN PROGETTO: copia un blocco <li> ... </li> qui sotto,
+        incollalo dove vuoi nella lista e cambia link, icona, titolo e descrizione.
+        Il primo della lista è quello più in alto.
+        Le icone vengono tutte da Tabler Icons (versione outline): si copia l'SVG
+        dell'icona e si mette class="icona" (vedi la skill "stile-interfacce").
+      -->
+      <li>
+        <a class="progetto" href="mazzo/">
+          <span class="riquadro" aria-hidden="true">
+            <!-- Tabler: playing-card -->
+            <svg class="icona" viewBox="0 0 24 24"><path d="M19 5v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z"/><path d="M8 6h.01"/><path d="M16 18h.01"/><path d="M11.92 11.448a1.5 1.5 0 0 0 -2.11 -2.103a1.5 1.5 0 0 0 -.006 2.12l2.196 2.15l2.21 -2.15a1.5 1.5 0 0 0 0 -2.12a1.5 1.5 0 0 0 -2.12 0"/></svg>
+          </span>
+          <span class="testo">
+            <strong>Il mazzo del giorno</strong>
+            <span class="descrizione">Più alta o più bassa? Al primo errore è finita.</span>
+          </span>
+          <!-- Tabler: chevron-right -->
+          <span class="vai" aria-hidden="true"><svg class="icona" viewBox="0 0 24 24"><path d="M9 6l6 6l-6 6"/></svg></span>
+        </a>
+      </li>
+
+      <li class="in-arrivo">Altri giochi in arrivo</li>
+    </ul>
+
+    <a class="bottone chiaro classifiche" href="classifica/">
+      <!-- Tabler: trophy -->
+      <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21l8 0"/><path d="M12 17l0 4"/><path d="M7 4l10 0"/><path d="M17 4v8a5 5 0 0 1 -10 0v-8"/><path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>
+      Classifiche
+    </a>
+  </main>
+</body>
+</html>

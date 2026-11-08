@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Classifiche</title>
+  <meta name="description" content="Le classifiche dei giochi di La Statistica Dietro Le Cose.">
+  <meta name="theme-color" content="#EAF0F4">
+  <link rel="icon" type="image/png" href="../icona.png">
+  <link rel="stylesheet" href="../stile.css">
+  <script src="../tema.js"></script>
+  <link rel="stylesheet" href="classifica.css">
+</head>
+<body>
+  <main class="pagina">
+    <a class="indietro" href="../"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>Home</a>
+    <p class="intestazione">La Statistica Dietro Le Cose</p>
+    <h1>Classifiche</h1>
+
+    <!-- scelta del gioco: compare solo quando i giochi sono più di uno -->
+    <div class="opzioni" id="scegliGioco" role="tablist" hidden></div>
+
+    <section class="scheda" id="classifica">
+      <h2 id="nomeGioco"></h2>
+      <p class="tenue" id="spiegazione"></p>
+
+      <table class="tabella" id="tabella" hidden>
+        <thead><tr><th scope="col">#</th><th scope="col">Giocatore</th><th scope="col" id="colonnaPunti"></th></tr></thead>
+        <tbody id="righe"></tbody>
+      </table>
+
+      <div class="vuota" id="vuota" hidden>
+        <!-- Tabler: trophy -->
+        <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21l8 0"/><path d="M12 17l0 4"/><path d="M7 4l10 0"/><path d="M17 4v8a5 5 0 0 1 -10 0v-8"/><path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>
+        <p><b>La classifica è ancora vuota.</b></p>
+        <p class="tenue">Si riempirà quando il sito sarà online: a fine partita basterà salvare il punteggio con email e nome.</p>
+      </div>
+
+      <div class="tuo" id="tuo" hidden>
+        <span>Il tuo record su questo telefono</span>
+        <strong id="tuoRecord"></strong>
+      </div>
+
+      <a class="bottone largo" id="gioca" href="#">Gioca</a>
+    </section>
+  </main>
+
+  <script src="classifica.js"></script>
+</body>
+</html>

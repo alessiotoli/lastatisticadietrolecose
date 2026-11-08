@@ -1,0 +1,127 @@
+/* Grafica del mazzo del giorno. Regole: skill "stile-interfacce". */
+
+:root {
+  --carta-larga: 96px;
+  --carta-alta: 136px;
+}
+
+h1 { text-align: center; font-size: 24px; margin: 0; }
+h3 { font-size: 16px; margin: var(--s3) 0 var(--s1); }
+.data { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s2); }
+.tenue { color: var(--testo-tenue); }
+.bottone.largo { width: 100%; }
+
+.regole { margin: 0 0 var(--s2); padding-left: var(--s3); }
+.regole li { margin-bottom: var(--s1); }
+
+/* --- il tavolo --- */
+.tavolo {
+  display: flex; align-items: center; gap: var(--s2);
+  padding: var(--s2);
+  background: var(--tavolo);
+  border: 1px solid var(--dorso);
+  border-radius: var(--s2);
+}
+.mucchio, .carta { flex: none; width: var(--carta-larga); height: var(--carta-alta); }
+.dorso, .carta {
+  border: 1px solid var(--dorso);
+  border-radius: var(--s1);
+}
+.dorso {
+  width: 100%; height: 100%;
+  background-color: var(--dorso);
+  /* righe sottili disegnate con un pattern SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M0 8L8 0' stroke='%234A5670' stroke-width='1'/%3E%3C/svg%3E");
+}
+.carta {
+  position: relative;
+  background: var(--carta);
+  color: var(--carta-testo);
+  display: grid; place-items: center;
+}
+.carta.rossa { color: var(--seme-rosso); }
+.carta .angolo {
+  position: absolute; top: var(--s1); left: var(--s1);
+  font-size: 16px; font-weight: 700; line-height: 1;
+}
+.carta .angolo.basso { top: auto; left: auto; bottom: var(--s1); right: var(--s1); transform: rotate(180deg); }
+.carta .centro { font-size: 48px; line-height: 1; }
+.carta.gira { animation: gira .35s ease-out; }
+@keyframes gira {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+.carta.errore { border-color: var(--sbagliato); outline: 1px solid var(--sbagliato); }
+
+.punteggio {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column;
+  color: var(--carta);
+}
+.punteggio strong { font-size: 48px; line-height: 1; font-variant-numeric: tabular-nums; }
+.punteggio .tenue { color: var(--carta); opacity: 0.8; font-variant-numeric: tabular-nums; }
+
+.messaggio { text-align: center; font-weight: 700; min-height: var(--s6); margin: var(--s1) 0 0; display: flex; align-items: center; justify-content: center; }
+.messaggio.giusto { color: var(--giusto); }
+.messaggio.sbagliato { color: var(--sbagliato); }
+
+.comandi { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+
+.link {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  min-height: var(--s6); padding: 0;
+  font: 400 16px var(--font); color: var(--testo);
+  background: none; border: 0; text-decoration: underline; cursor: pointer;
+}
+
+/* --- griglia delle carte uscite --- */
+.uscite { margin-top: var(--s3); }
+.titolo-uscite { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+.griglia-carte {
+  display: grid;
+  grid-template-columns: var(--s3) repeat(13, 1fr);
+  gap: 1px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.griglia-carte.nascosta { display: none; }
+.griglia-carte .etichetta { display: grid; place-items: center; color: var(--testo-tenue); height: var(--s3); }
+.griglia-carte .etichetta.rossa { color: var(--seme-rosso-testo); }
+.griglia-carte .casella {
+  height: var(--s3);
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+}
+.griglia-carte .casella.uscita { background: var(--testo-tenue); border-color: var(--testo-tenue); }
+.griglia-carte .casella.attuale { background: var(--accento); border-color: var(--accento-scuro); }
+
+/* --- risultato --- */
+.numero-grande { text-align: center; margin: 0; }
+.numero-grande strong { display: block; font-size: 64px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.racconto { text-align: center; margin-top: var(--s1); }
+
+.record { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); padding: var(--s2) 0; }
+.record div { display: flex; flex-direction: column; align-items: center; }
+.record span { color: var(--testo-tenue); }
+.record strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+.confronto {
+  display: flex; flex-direction: column; align-items: center;
+  margin: var(--s3) 0; text-align: center;
+}
+.confronto strong { font-size: 48px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.confronto strong:empty { display: none; }
+.nota-confronto { font-size: 12px; color: var(--testo-tenue); margin: var(--s1) 0 0; }
+
+.fine { display: grid; gap: var(--s2); margin-top: var(--s4); }
+.avviso { text-align: center; color: var(--giusto); margin: 0; }
+.prossimo { text-align: center; margin: 0; font-variant-numeric: tabular-nums; }
+
+/* durante la partita il titolo lascia spazio al tavolo */
+body.giocando .intestazione, body.giocando h1, body.giocando .data { display: none; }
+
+.gia-giocato {
+  text-align: center; color: var(--testo-tenue);
+  padding-bottom: var(--s2); margin-bottom: var(--s2);
+  border-bottom: 1px solid var(--linea);
+}

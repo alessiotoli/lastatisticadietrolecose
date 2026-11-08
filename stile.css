@@ -1,0 +1,211 @@
+/*
+  Stile comune del sito. Regole: skill "stile-interfacce"
+  (spaziature multiple di 8, una palette neutra, icone Tabler a linea,
+  due pesi di font, niente maiuscolo, numeri senza decorazioni).
+
+  Tema chiaro e scuro
+  - Di base il sito segue il telefono (chiaro o scuro).
+  - Chi preme il bottone del tema lo sceglie a mano: tema.js scrive
+    data-theme="light" o "dark" su <html> e lo ricorda.
+  - Tutti i colori stanno qui sotto: le pagine usano solo le variabili.
+*/
+:root {
+  /* spaziature: solo questi valori */
+  --s1: 8px;
+  --s2: 16px;
+  --s3: 24px;
+  --s4: 32px;
+  --s6: 48px;
+
+  /* il bordo inferiore dei bottoni, che li fa sembrare "da premere" */
+  --rilievo: 4px;
+
+  --font: Georgia, "Times New Roman", serif;
+
+  /* --- tema chiaro --- */
+  color-scheme: light;
+  --fondo: #EAF0F4;
+  --superficie: #FFFFFF;
+  --linea: #C3D2E0;
+  --testo: #12213F;
+  --testo-tenue: #4A5670;
+
+  /* accenti, solo con un significato */
+  --accento: #6A3FB8;          /* azione principale, "tu" (il viola della pagina) */
+  --accento-scuro: #4A2A85;    /* il bordo in rilievo dei bottoni viola */
+  --su-accento: #FFFFFF;       /* testo sopra il viola */
+  --giusto: #2E8B57;
+  --sbagliato: #C0392B;
+
+  /* le carte da gioco restano bianche anche col tema scuro */
+  --carta: #FFFFFF;
+  --carta-testo: #12213F;
+  --seme-rosso: #C0392B;
+  --seme-rosso-testo: #C0392B;   /* cuori e quadri scritti sullo sfondo della pagina */
+  --dorso: #12213F;
+  --tavolo: #2E8B57;
+
+  /* il foglio a quadretti (pattern SVG, niente gradienti) */
+  --quadretti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M32 0H0V32' fill='none' stroke='%23C3D2E0' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* --- tema scuro: stessi nomi, colori diversi --- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fondo: #0E1524;
+    --superficie: #182238;
+    --linea: #2E3D58;
+    --testo: #E8EDF6;
+    --testo-tenue: #A3AFC4;
+    --accento: #7C55D6;
+    --accento-scuro: #4A2A85;
+    --giusto: #4CB782;
+    --sbagliato: #E8705F;
+    --seme-rosso-testo: #E8705F;
+    --tavolo: #22714A;
+    --quadretti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M32 0H0V32' fill='none' stroke='%231B263C' stroke-width='1'/%3E%3C/svg%3E");
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --fondo: #0E1524;
+  --superficie: #182238;
+  --linea: #2E3D58;
+  --testo: #E8EDF6;
+  --testo-tenue: #A3AFC4;
+  --accento: #7C55D6;
+  --accento-scuro: #4A2A85;
+  --giusto: #4CB782;
+  --sbagliato: #E8705F;
+  --seme-rosso-testo: #E8705F;
+  --tavolo: #22714A;
+  --quadretti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M32 0H0V32' fill='none' stroke='%231B263C' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+* { box-sizing: border-box; }
+
+/* un elemento nascosto resta nascosto anche se ha un suo display (flex, grid…) */
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--testo);
+  background-color: var(--fondo);
+  background-image: var(--quadretti);
+  background-size: 32px 32px;
+  line-height: 1.5;
+}
+
+a { color: inherit; }
+h1, h2, h3, b, strong { font-weight: 700; }
+p { margin: 0 0 var(--s2); }
+
+.pagina {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--s2) var(--s2) var(--s4);
+}
+
+.intestazione {
+  text-align: center;
+  font-size: 16px;
+  color: var(--testo-tenue);
+  margin: 0 0 var(--s1);
+}
+
+.icona {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* --- "Home", in alto a sinistra --- */
+.indietro {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  min-height: var(--s6);
+  text-decoration: none;
+}
+.indietro .icona { width: 20px; height: 20px; }
+
+/* --- cambio tema, in fondo alla pagina (lo crea tema.js) --- */
+.piede-tema {
+  display: flex; justify-content: center;
+  margin-top: var(--s4); padding-top: var(--s2);
+  border-top: 1px solid var(--linea);
+}
+.bottone-tema {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  min-height: var(--s6); padding: 0 var(--s2);
+  font: 400 16px var(--font);
+  color: var(--testo);
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--s3);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.bottone-tema .icona { width: 20px; height: 20px; }
+
+/* --- bottoni ---
+   Pieni di colore, con un bordo inferiore più spesso che li fa sembrare in rilievo.
+   Quando si premono "scendono": il rilievo sparisce e il bottone si abbassa. */
+.bottone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s1);
+  min-height: var(--s6);
+  padding: var(--s1) var(--s2);
+  font: 700 16px var(--font);
+  color: var(--su-accento);
+  background: var(--accento);
+  border: 1px solid var(--accento-scuro);
+  border-bottom-width: var(--rilievo);
+  border-radius: var(--s1);
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform .08s, border-bottom-width .08s;
+}
+.bottone:active:not([disabled]) {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+  margin-bottom: 3px;
+}
+.bottone[disabled] { opacity: 0.4; cursor: default; }
+.bottone.chiaro {
+  color: var(--testo);
+  background: var(--superficie);
+  border-color: var(--testo-tenue);
+}
+@media (hover: hover) {
+  .bottone:hover:not([disabled]) { filter: brightness(1.08); }
+  .bottone.chiaro:hover:not([disabled]) { background: var(--fondo); filter: none; }
+}
+
+/* chi usa la tastiera vede dove si trova */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accento);
+  outline-offset: 2px;
+}
+
+.scheda {
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--s2);
+  padding: var(--s2);
+}
