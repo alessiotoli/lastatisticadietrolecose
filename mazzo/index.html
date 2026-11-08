@@ -22,31 +22,39 @@
 
     <!-- 1. REGOLE -->
     <section id="inizio" class="scheda">
-      <p>Un mazzo da 52 carte, <b>uguale per tutti</b> e diverso ogni giorno.</p>
-      <p>La prima carta si gira da sola. Tu devi dire se la prossima sarà <b>più alta o più bassa</b>.</p>
-      <ul class="regole">
-        <li>L'asso vale 1, il re vale 13.</li>
-        <li>Se esce una carta uguale sei salvo e vai avanti.</li>
-        <li>Al primo errore la partita finisce.</li>
-        <li><b>Hai una sola partita al giorno.</b></li>
-      </ul>
-      <p>Il tuo punteggio è il numero di carte che superi. In classifica entra il tuo record.</p>
+      <!-- chi ha già giocato vede solo questo: le regole le conosce -->
+      <div id="bentornato" hidden>
+        <p class="serie" id="serieInizio"></p>
+        <p>Stesse regole di sempre: più alta o più bassa, al primo errore è finita.</p>
+        <button type="button" class="link" id="mostraRegole" aria-expanded="false" aria-controls="regole">Rileggi le regole</button>
+      </div>
+      <div id="regole">
+        <p>Un mazzo da 52 carte, <b>uguale per tutti</b> e diverso ogni giorno.</p>
+        <p>La prima carta si gira da sola. Tu devi dire se la prossima sarà <b>più alta o più bassa</b>.</p>
+        <ul class="regole">
+          <li>L'asso vale 1, il re vale 13.</li>
+          <li>Se esce una carta uguale sei salvo e vai avanti.</li>
+          <li>Al primo errore la partita finisce.</li>
+          <li><b>Hai una sola partita al giorno.</b></li>
+        </ul>
+        <p>Il tuo punteggio è il numero di carte che superi.</p>
+      </div>
       <button type="button" class="bottone largo" id="inizia">Gira la prima carta</button>
     </section>
 
     <!-- 2. LA PARTITA -->
     <section id="partita" hidden>
-      <div class="tavolo">
+      <div class="tavolo" id="tavolo">
         <div class="mucchio" aria-hidden="true"><div class="dorso"></div></div>
-        <div class="carta" id="carta" aria-live="polite"></div>
+        <div class="carta" id="carta" role="img" aria-label="Carta coperta"></div>
         <div class="punteggio">
           <strong id="punti">0</strong>
-          <span>carte superate</span>
-          <span class="tenue" id="rimaste">51 da girare</span>
+          <span id="puntiTesto">carte superate</span>
+          <span id="rimaste">51 da girare</span>
         </div>
       </div>
 
-      <p class="messaggio" id="messaggio">&nbsp;</p>
+      <p class="messaggio" id="messaggio" role="status">&nbsp;</p>
 
       <div class="comandi">
         <button type="button" class="bottone scelta" id="su" disabled><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l0 14"/><path d="M18 11l-6 -6"/><path d="M6 11l6 -6"/></svg>Più alta</button>
@@ -58,33 +66,36 @@
           <span>Carte già uscite</span>
           <button type="button" class="link" id="nascondi" aria-pressed="true">Nascondi</button>
         </div>
-        <div class="griglia-carte" id="griglia"></div>
+        <div class="griglia-carte" id="griglia" role="img" aria-label="Nessuna carta uscita"></div>
       </div>
     </section>
 
     <!-- 3. RISULTATO -->
     <section id="risultato" class="scheda" hidden>
-      <p class="gia-giocato" id="giaGiocato" hidden>Hai già giocato il mazzo di oggi. Ecco com'è andata: il prossimo arriva a mezzanotte.</p>
-      <p class="numero-grande"><strong id="rPunti"></strong><span id="rPuntiTesto"></span></p>
+      <p class="gia-giocato" id="giaGiocato" hidden>Hai già giocato il mazzo di oggi.</p>
+      <p class="numero-grande" id="titoloRisultato" tabindex="-1"><strong id="rPunti"></strong><span id="rPuntiTesto"></span></p>
+      <p class="nuovo-record" id="nuovoRecord" hidden>Nuovo record</p>
       <p class="racconto" id="racconto"></p>
+      <p class="probabilita" id="probabilita" hidden></p>
 
       <div class="confronto">
         <span id="rConfrontoPrima">Hai fatto meglio del</span>
         <strong id="rQuota"></strong>
-        <span id="rConfrontoDopo">dei giocatori</span>
-        <p class="nota-confronto" id="notaConfronto">Confronto con 10.000 partite simulate sul mazzo di oggi.</p>
+        <span id="rConfrontoDopo">dei giocatori simulati</span>
+        <p class="nota-confronto" id="notaConfronto">10.000 partite simulate sul mazzo di oggi.</p>
       </div>
 
-      <div class="record">
+      <p class="prossimo" id="prossimo">Torna domani: il prossimo mazzo arriva tra <b id="countdown"></b></p>
+
+      <div class="record" id="bloccoRecord">
         <div><span>Il tuo record</span><strong id="rRecord"></strong></div>
-        <div><span>Partite giocate</span><strong id="rPartite"></strong></div>
+        <div><span>Giorni di fila</span><strong id="rSerie"></strong></div>
       </div>
 
       <div class="fine">
         <button type="button" class="bottone largo" id="condividi"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></svg>Condividi il risultato</button>
         <p class="avviso" id="copiato" hidden>Risultato copiato: incollalo dove vuoi.</p>
         <a class="bottone chiaro largo" href="../classifica/?gioco=mazzo"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21l8 0"/><path d="M12 17l0 4"/><path d="M7 4l10 0"/><path d="M17 4v8a5 5 0 0 1 -10 0v-8"/><path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>Vedi la classifica</a>
-        <p class="prossimo">Il prossimo mazzo arriva tra <b id="countdown"></b></p>
         <button type="button" class="bottone chiaro largo" id="prova" hidden>Nuovo mazzo di prova</button>
       </div>
     </section>

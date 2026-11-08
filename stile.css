@@ -34,7 +34,7 @@
   --accento: #6A3FB8;          /* azione principale, "tu" (il viola della pagina) */
   --accento-scuro: #4A2A85;    /* il bordo in rilievo dei bottoni viola */
   --su-accento: #FFFFFF;       /* testo sopra il viola */
-  --giusto: #2E8B57;
+  --giusto: #23704A;           /* più scuro del verde dei video: si legge anche sul fondo chiaro */
   --sbagliato: #C0392B;
 
   /* le carte da gioco restano bianche anche col tema scuro */
@@ -43,7 +43,7 @@
   --seme-rosso: #C0392B;
   --seme-rosso-testo: #C0392B;   /* cuori e quadri scritti sullo sfondo della pagina */
   --dorso: #12213F;
-  --tavolo: #2E8B57;
+  --tavolo: #257A4E;           /* il testo bianco sopra resta leggibile */
 
   /* il foglio a quadretti (pattern SVG, niente gradienti) */
   --quadretti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M32 0H0V32' fill='none' stroke='%23C3D2E0' stroke-width='1'/%3E%3C/svg%3E");
@@ -103,6 +103,17 @@ body {
   line-height: 1.5;
 }
 
+/* niente parola sola sull'ultima riga */
+p, li { text-wrap: pretty; }
+
+/* testo letto solo dal lettore di schermo */
+.solo-lettore {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+::selection { background: var(--accento); color: var(--su-accento); }
+
 a { color: inherit; }
 h1, h2, h3, b, strong { font-weight: 700; }
 p { margin: 0 0 var(--s2); }
@@ -151,12 +162,16 @@ p { margin: 0 0 var(--s2); }
   font: 400 16px var(--font);
   color: var(--testo);
   background: var(--superficie);
-  border: 1px solid var(--linea);
+  border: 1px solid var(--testo-tenue);
+  border-bottom-width: var(--rilievo);
   border-radius: var(--s3);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  transition: transform .08s, border-bottom-width .08s;
 }
+.bottone-tema:active { transform: translateY(3px); border-bottom-width: 1px; margin-bottom: 3px; }
+@media (hover: hover) { .bottone-tema:hover { background: var(--fondo); } }
 .bottone-tema .icona { width: 20px; height: 20px; }
 
 /* --- bottoni ---

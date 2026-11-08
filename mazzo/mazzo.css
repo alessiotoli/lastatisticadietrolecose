@@ -42,8 +42,10 @@ h3 { font-size: 16px; margin: var(--s3) 0 var(--s1); }
 .carta.rossa { color: var(--seme-rosso); }
 .carta .angolo {
   position: absolute; top: var(--s1); left: var(--s1);
+  display: flex; flex-direction: column; align-items: center;
   font-size: 16px; font-weight: 700; line-height: 1;
 }
+.carta .angolo small { font-size: 16px; font-weight: 400; }
 .carta .angolo.basso { top: auto; left: auto; bottom: var(--s1); right: var(--s1); transform: rotate(180deg); }
 .carta .centro { font-size: 48px; line-height: 1; }
 .carta.gira { animation: gira .35s ease-out; }
@@ -51,7 +53,20 @@ h3 { font-size: 16px; margin: var(--s3) 0 var(--s1); }
   0% { transform: scaleX(0); }
   100% { transform: scaleX(1); }
 }
+/* la carta che fa perdere: bordo rosso, il tavolo si "chiude" in rosso e la carta trema una volta */
 .carta.errore { border-color: var(--sbagliato); outline: 1px solid var(--sbagliato); }
+.carta.gira.errore { animation: gira .35s ease-out, trema .4s ease-out .35s; }
+.tavolo.errore { border-color: var(--sbagliato); outline: 1px solid var(--sbagliato); }
+@keyframes trema {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carta.gira, .carta.gira.errore { animation: none; }
+}
 
 .punteggio {
   flex: 1; min-width: 0;
@@ -59,7 +74,7 @@ h3 { font-size: 16px; margin: var(--s3) 0 var(--s1); }
   color: var(--carta);
 }
 .punteggio strong { font-size: 48px; line-height: 1; font-variant-numeric: tabular-nums; }
-.punteggio .tenue { color: var(--carta); opacity: 0.8; font-variant-numeric: tabular-nums; }
+.punteggio span { font-variant-numeric: tabular-nums; }
 
 .messaggio { text-align: center; font-weight: 700; min-height: var(--s6); margin: var(--s1) 0 0; display: flex; align-items: center; justify-content: center; }
 .messaggio.giusto { color: var(--giusto); }
@@ -109,19 +124,35 @@ h3 { font-size: 16px; margin: var(--s3) 0 var(--s1); }
   display: flex; flex-direction: column; align-items: center;
   margin: var(--s3) 0; text-align: center;
 }
-.confronto strong { font-size: 48px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.confronto strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .confronto strong:empty { display: none; }
-.nota-confronto { font-size: 12px; color: var(--testo-tenue); margin: var(--s1) 0 0; }
+.nota-confronto { color: var(--testo-tenue); margin: var(--s1) 0 0; }
 
 .fine { display: grid; gap: var(--s2); margin-top: var(--s4); }
 .avviso { text-align: center; color: var(--giusto); margin: 0; }
-.prossimo { text-align: center; margin: 0; font-variant-numeric: tabular-nums; }
+/* l'appuntamento con domani: subito dopo il confronto, tra due linee */
+.prossimo {
+  text-align: center; margin: 0;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--linea);
+  font-variant-numeric: tabular-nums;
+}
+.prossimo a { font-weight: 700; }
+.record { border-top: 0; }
 
 /* durante la partita il titolo lascia spazio al tavolo */
 body.giocando .intestazione, body.giocando h1, body.giocando .data { display: none; }
 
-.gia-giocato {
-  text-align: center; color: var(--testo-tenue);
-  padding-bottom: var(--s2); margin-bottom: var(--s2);
-  border-bottom: 1px solid var(--linea);
-}
+.gia-giocato { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s1); }
+
+.nuovo-record { text-align: center; font-weight: 700; margin: var(--s1) 0 0; }
+.probabilita { text-align: center; margin: var(--s1) 0 0; }
+
+/* chi torna: una riga sui giorni di fila e le regole a richiesta */
+.serie { margin-bottom: var(--s1); }
+#bentornato { margin-bottom: var(--s2); }
+#bentornato .link { margin-bottom: 0; }
+#bentornato:not([hidden]) + #regole:not([hidden]) { border-top: 1px solid var(--linea); padding-top: var(--s2); }
+
+/* il punto di arrivo del focus a fine partita non disegna un riquadro */
+[tabindex="-1"]:focus { outline: none; }
