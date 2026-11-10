@@ -11,6 +11,7 @@
   <link rel="icon" type="image/png" href="../icona.png">
   <link rel="stylesheet" href="../stile.css">
   <script src="../tema.js"></script>
+  <script src="../statistiche.js"></script>
   <link rel="stylesheet" href="mazzo.css">
 </head>
 <body>
@@ -96,11 +97,19 @@
       <div class="entra" id="entra" hidden>
         <p class="esito" id="esitoClassifica" role="status" hidden></p>
 
+        <div class="proposta" id="propostaNovita" hidden>
+          <p id="novitaTesto" role="status"></p>
+          <div class="proposta-bottoni">
+            <button type="button" class="bottone chiaro" id="novitaSi">Sì, avvisami</button>
+            <button type="button" class="link" id="novitaNo">No, grazie</button>
+          </div>
+        </div>
+
         <form id="formClassifica" novalidate hidden>
           <p><b>Entra in classifica</b><br>Lo fai una volta sola: dai giorni dopo il punteggio si salva da solo.</p>
           <label class="campo">
-            <span>Nome <span class="tenue">(lo vedono tutti)</span></span>
-            <input id="nome" name="nome" maxlength="20" autocomplete="nickname" autocapitalize="words" required>
+            <span>Nome e iniziale del cognome, o nome Instagram <span class="tenue">(lo vedono tutti)</span></span>
+            <input id="nome" name="nome" maxlength="20" autocomplete="nickname" autocapitalize="words" spellcheck="false" placeholder="Mario R. oppure @mario.rossi" required>
           </label>
           <label class="campo">
             <span>Email <span class="tenue">(non la vede nessuno)</span></span>
@@ -108,7 +117,11 @@
           </label>
           <label class="consenso">
             <input id="consenso" type="checkbox" required>
-            <span>Ho letto l'<a href="../privacy/">informativa sulla privacy</a></span>
+            <span>Ho letto l'<a href="../privacy/">informativa sulla privacy</a> e ho almeno 14 anni</span>
+          </label>
+          <label class="consenso">
+            <input id="novita" type="checkbox">
+            <span>Voglio ricevere un'email quando escono giochi nuovi o aggiornamenti <span class="tenue">(facoltativo)</span></span>
           </label>
           <p class="errore-campo" id="erroreForm" role="alert" hidden></p>
           <button type="submit" class="bottone chiaro largo" id="salvaClassifica">Salva il punteggio</button>

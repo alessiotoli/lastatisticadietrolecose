@@ -1,0 +1,1 @@
+const Statistiche=function(){"use strict";return{evento:function(t){}}}();

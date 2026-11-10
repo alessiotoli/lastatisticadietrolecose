@@ -162,3 +162,7 @@ body.giocando .intestazione, body.giocando h1, body.giocando .data { display: no
 .entra .esito { text-align: center; margin: 0; }
 .entra .esito .link { min-height: auto; }
 .entra form { padding-top: var(--s1); }
+.proposta { margin-top: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--linea); text-align: center; }
+.proposta p { margin-bottom: var(--s1); }
+.proposta-bottoni { display: flex; justify-content: center; align-items: center; gap: var(--s3); }
+.consenso span .tenue { white-space: nowrap; }
