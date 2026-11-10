@@ -1,1 +1,1 @@
-const Statistiche=function(){"use strict";return{evento:function(t){}}}();
+const Statistiche=function(){"use strict";const t="lsdlc";if(t){const t=document.createElement("script");t.async=!0,t.src="https://gc.zgo.at/count.js",t.dataset.goatcounter="https://lsdlc.goatcounter.com/count",document.head.appendChild(t)}return{evento:function(t){try{window.goatcounter&&window.goatcounter.count&&window.goatcounter.count({path:t,title:t,event:!0})}catch(t){}}}}();
