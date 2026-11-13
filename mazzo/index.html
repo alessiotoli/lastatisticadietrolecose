@@ -41,6 +41,7 @@
         <p>Il tuo punteggio è il numero di carte che superi.</p>
       </div>
       <button type="button" class="bottone largo" id="inizia">Gira la prima carta</button>
+      <p class="errore-campo" id="erroreInizio" role="alert" hidden>Non riesco a prendere il mazzo di oggi: controlla la connessione e riprova.</p>
     </section>
 
     <!-- 2. LA PARTITA -->
@@ -79,7 +80,7 @@
       <p class="racconto" id="racconto"></p>
       <p class="probabilita" id="probabilita" hidden></p>
 
-      <div class="confronto">
+      <div class="confronto" id="bloccoConfronto">
         <span id="rConfrontoPrima">Hai fatto meglio del</span>
         <strong id="rQuota"></strong>
         <span id="rConfrontoDopo">dei giocatori simulati</span>
