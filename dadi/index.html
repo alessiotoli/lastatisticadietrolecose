@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Il dado avido</title>
+  <meta name="description" content="Tira il dado quante volte vuoi, ma se esce 1 perdi i punti del turno. Una partita al giorno da 10 turni: quando ti fermi?">
+  <meta property="og:title" content="Il dado avido · La Statistica Dietro Le Cose">
+  <meta property="og:description" content="Tira ancora o fermati? Se esce 1 perdi tutto il turno.">
+  <meta name="theme-color" content="#EAF0F4">
+  <link rel="icon" type="image/png" href="../icona.png">
+  <link rel="stylesheet" href="../stile.css">
+  <script src="../tema.js"></script>
+  <script src="../statistiche.js"></script>
+  <link rel="stylesheet" href="dadi.css">
+</head>
+<body>
+  <main class="pagina">
+    <a class="indietro" href="../"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>Home</a>
+    <p class="intestazione">La Statistica Dietro Le Cose</p>
+    <h1>Il dado avido</h1>
+    <p class="data" id="data"></p>
+
+    <!-- 1. REGOLE -->
+    <section id="inizio" class="scheda">
+      <div id="bentornato" hidden>
+        <p class="serie" id="serieInizio"></p>
+        <p>Stesse regole di sempre: tira o fermati, ma se esce 1 perdi i punti del turno.</p>
+        <button type="button" class="link" id="mostraRegole" aria-expanded="false" aria-controls="regole">Rileggi le regole</button>
+      </div>
+      <div id="regole">
+        <p>Hai <b>10 turni</b>. In ogni turno tiri il dado quante volte vuoi e sommi i numeri che escono.</p>
+        <ul class="regole">
+          <li>Dopo ogni tiro scegli: <b>tirare ancora</b> o <b>fermarti</b> e mettere i punti del turno al sicuro.</li>
+          <li>Se esce <b>1</b>, perdi i punti di quel turno. Quelli già al sicuro restano.</li>
+          <li>Il dado è casuale, come uno vero: ogni partita ha i suoi tiri.</li>
+          <li><b>Hai una sola partita al giorno.</b></li>
+        </ul>
+        <p>Il tuo punteggio è il totale dopo 10 turni.</p>
+      </div>
+      <button type="button" class="bottone largo" id="inizia">Inizia a tirare</button>
+      <p class="errore-campo" id="erroreInizio" role="alert" hidden>Non riesco a prendere i tiri di oggi: controlla la connessione e riprova.</p>
+    </section>
+
+    <!-- 2. LA PARTITA -->
+    <section id="partita" hidden>
+      <div class="cruscotto">
+        <div class="conto"><span>Turno</span><strong id="turno">1</strong><span class="tenue">di 10</span></div>
+        <div class="conto"><span>Al sicuro</span><strong id="totale">0</strong><span class="tenue">punti</span></div>
+      </div>
+
+      <div class="tavolo" id="tavolo">
+        <div class="dado" id="dado" role="img" aria-label="Il dado non è ancora stato tirato"></div>
+        <div class="ballo">
+          <span>In ballo</span>
+          <strong id="inBallo">0</strong>
+          <span class="tenue" id="tiriTurno">nessun tiro</span>
+        </div>
+      </div>
+
+      <p class="messaggio" id="messaggio" role="status">&nbsp;</p>
+
+      <div class="comandi">
+        <button type="button" class="bottone" id="tira">
+          <!-- Tabler: dice-5 -->
+          <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"/><path d="M8.5 8.5m-.5 0a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor"/><path d="M15.5 8.5m-.5 0a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor"/><path d="M15.5 15.5m-.5 0a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor"/><path d="M8.5 15.5m-.5 0a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor"/><path d="M12 12m-.5 0a.5 .5 0 1 0 1 0a.5 .5 0 1 0 -1 0" fill="currentColor"/></svg>
+          Tira
+        </button>
+        <button type="button" class="bottone chiaro" id="fermati" disabled>
+          <!-- Tabler: lock -->
+          <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/></svg>
+          <span id="fermatiTesto">Fermati</span>
+        </button>
+      </div>
+
+      <div class="diario">
+        <p class="titolo-diario">I tuoi turni</p>
+        <ol id="diario"></ol>
+      </div>
+    </section>
+
+    <!-- 3. RISULTATO -->
+    <section id="risultato" class="scheda" hidden>
+      <p class="gia-giocato" id="giaGiocato" hidden>Hai già giocato la partita di oggi.</p>
+      <p class="numero-grande" id="titoloRisultato" tabindex="-1"><strong id="rPunti"></strong><span>punti in 10 turni</span></p>
+      <p class="nuovo-record" id="nuovoRecord" hidden>Nuovo record</p>
+
+      <p class="carattere" id="carattere"></p>
+
+      <!-- i 10 turni: punti tenuti e punti persi quando è uscito 1, con la linea dei 20 -->
+      <figure class="grafico" id="grafico">
+        <svg id="graficoTurni" viewBox="0 0 320 176" role="img" aria-labelledby="graficoTitolo"></svg>
+        <figcaption id="graficoTitolo">
+          <span class="voce"><span class="campione tenuto"></span>punti tenuti</span>
+          <span class="voce"><span class="campione perso"></span>punti persi con l'1</span>
+        </figcaption>
+      </figure>
+
+      <div class="confronto">
+        <p id="confrontoVenti"></p>
+        <p class="tenue" id="perche">Perché 20? Ogni tiro in più vale in media 4 punti, ma una volta su 6 esce l'1 e perdi quello che hai in ballo. Con 20 punti in ballo, rischio e guadagno si pareggiano.</p>
+        <p id="confrontoGiocatori" hidden></p>
+      </div>
+
+      <p class="prossimo" id="prossimo">Torna domani: i prossimi tiri arrivano tra <b id="countdown"></b></p>
+
+      <div class="record" id="bloccoRecord">
+        <div><span>Il tuo record</span><strong id="rRecord"></strong></div>
+        <div><span>Giorni di fila</span><strong id="rSerie"></strong></div>
+      </div>
+
+      <div class="entra" id="entra" hidden>
+        <p class="esito" id="esitoClassifica" role="status" hidden></p>
+
+        <div class="proposta" id="propostaNovita" hidden>
+          <p id="novitaTesto" role="status"></p>
+          <div class="proposta-bottoni">
+            <button type="button" class="bottone chiaro" id="novitaSi">Sì, avvisami</button>
+            <button type="button" class="link" id="novitaNo">No, grazie</button>
+          </div>
+        </div>
+
+        <form id="formClassifica" novalidate hidden>
+          <p><b>Entra in classifica</b><br>Lo fai una volta sola: dai giorni dopo il punteggio si salva da solo.</p>
+          <label class="campo">
+            <span>Nome e iniziale del cognome, o nome Instagram <span class="tenue">(lo vedono tutti)</span></span>
+            <input id="nome" name="nome" maxlength="20" autocomplete="nickname" autocapitalize="words" spellcheck="false" placeholder="Mario R. oppure @mario.rossi" required>
+          </label>
+          <label class="campo">
+            <span>Email <span class="tenue">(non la vede nessuno)</span></span>
+            <input id="email" name="email" type="email" maxlength="254" autocomplete="email" inputmode="email" required>
+          </label>
+          <label class="consenso">
+            <input id="consenso" type="checkbox" required>
+            <span>Ho letto l'<a href="../privacy/">informativa sulla privacy</a> e ho almeno 14 anni</span>
+          </label>
+          <label class="consenso">
+            <input id="novita" type="checkbox">
+            <span>Voglio ricevere un'email quando escono giochi nuovi o aggiornamenti <span class="tenue">(facoltativo)</span></span>
+          </label>
+          <p class="errore-campo" id="erroreForm" role="alert" hidden></p>
+          <button type="submit" class="bottone chiaro largo" id="salvaClassifica">Salva il punteggio</button>
+        </form>
+      </div>
+
+      <div class="fine">
+        <button type="button" class="bottone largo" id="condividi"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></svg>Condividi il risultato</button>
+        <p class="avviso" id="copiato" hidden>Risultato copiato: incollalo dove vuoi.</p>
+        <a class="bottone chiaro largo" id="vediClassifica" href="../classifica/?gioco=dadi"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21l8 0"/><path d="M12 17l0 4"/><path d="M7 4l10 0"/><path d="M17 4v8a5 5 0 0 1 -10 0v-8"/><path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>Vedi la classifica</a>
+        <button type="button" class="bottone chiaro largo" id="prova" hidden>Nuova partita di prova</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="../server.js"></script>
+  <script src="logica.js"></script>
+  <script src="gioco.js"></script>
+</body>
+</html>

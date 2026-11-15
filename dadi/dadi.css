@@ -1,0 +1,147 @@
+/* Grafica del dado avido. Regole: skill "stile-interfacce". */
+
+:root {
+  --dado: #FFFFFF;          /* il dado resta bianco anche col tema scuro, come le carte */
+  --puntino: #12213F;
+  --muro-perso: #F6D9D5;    /* il riempimento tenue delle barre perse */
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --muro-perso: #4A2A2A; } }
+:root[data-theme="dark"] { --muro-perso: #4A2A2A; }
+
+h1 { text-align: center; font-size: 24px; margin: 0; }
+.data { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s2); }
+.tenue { color: var(--testo-tenue); }
+.bottone.largo { width: 100%; }
+
+.regole { margin: 0 0 var(--s2); padding-left: var(--s3); }
+.regole li { margin-bottom: var(--s1); }
+
+.link {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  min-height: var(--s6); padding: 0;
+  font: 400 16px var(--font); color: var(--testo);
+  background: none; border: 0; text-decoration: underline; cursor: pointer;
+}
+
+/* --- in alto: turno e punti al sicuro --- */
+.cruscotto { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-bottom: var(--s2); }
+.conto { display: flex; flex-direction: column; align-items: center; }
+.conto strong { font-size: 48px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+
+/* --- il tavolo verde con il dado e i punti in ballo --- */
+.tavolo {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: var(--s3) var(--s2);
+  background: var(--tavolo);
+  border: 1px solid var(--dorso);
+  border-radius: var(--s2);
+}
+.dado {
+  flex: none; width: 112px; height: 112px;
+  background: var(--dado);
+  border: 1px solid var(--dorso);
+  border-radius: var(--s2);
+  display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  padding: var(--s2);
+}
+.dado .puntino { width: 20px; height: 20px; border-radius: 50%; background: var(--puntino); place-self: center; }
+.dado.uno .puntino { background: var(--seme-rosso); }
+.dado.vuoto { background: transparent; border-style: dashed; border-color: var(--carta); }
+.dado.rotola { animation: rotola .3s ease-out; }
+@keyframes rotola {
+  0% { transform: rotate(-30deg) scale(.85); }
+  100% { transform: rotate(0) scale(1); }
+}
+.dado.uno.rotola { animation: rotola .3s ease-out, trema .4s ease-out .3s; }
+@keyframes trema {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@media (prefers-reduced-motion: reduce) { .dado.rotola, .dado.uno.rotola { animation: none; } }
+
+.ballo { flex: 1; min-width: 0; display: flex; flex-direction: column; color: var(--carta); }
+.ballo .tenue { color: var(--carta); opacity: .8; }
+.ballo strong { font-size: 64px; line-height: 1; font-variant-numeric: tabular-nums; }
+.tavolo.perso { border-color: var(--sbagliato); outline: 1px solid var(--sbagliato); }
+
+.messaggio { text-align: center; font-weight: 700; min-height: var(--s6); margin: var(--s1) 0 0; display: flex; align-items: center; justify-content: center; }
+.messaggio.giusto { color: var(--giusto); }
+.messaggio.sbagliato { color: var(--sbagliato); }
+
+.comandi { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+
+/* --- i turni giocati, separati da linee sottili --- */
+.titolo-diario { font-weight: 700; margin: var(--s3) 0 var(--s1); }
+.diario ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linea); }
+.diario li {
+  display: flex; justify-content: space-between; gap: var(--s2);
+  padding: var(--s1) 0; border-bottom: 1px solid var(--linea);
+  font-variant-numeric: tabular-nums;
+}
+.diario li .tiri { color: var(--testo-tenue); min-width: 0; overflow-wrap: anywhere; }
+.diario li .perso { color: var(--sbagliato); white-space: nowrap; }
+.diario li .tenuto { color: var(--giusto); font-weight: 700; white-space: nowrap; }
+.diario ol:empty::after { content: "Ancora nessun turno."; display: block; padding: var(--s1) 0; color: var(--testo-tenue); }
+
+body.giocando .intestazione, body.giocando h1, body.giocando .data { display: none; }
+
+/* --- risultato --- */
+.numero-grande { text-align: center; margin: 0; }
+.numero-grande strong { display: block; font-size: 64px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.nuovo-record { text-align: center; font-weight: 700; margin: var(--s1) 0 0; }
+.gia-giocato { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s1); }
+
+.carattere { text-align: center; margin: var(--s2) 0 0; }
+
+/* grafico dei turni: linee sottili, colori tenui, la linea dei 20 nel colore d'accento */
+.grafico { margin: var(--s3) 0 0; }
+.grafico svg { display: block; width: 100%; height: auto; overflow: visible; }
+.grafico .griglia { stroke: var(--linea); stroke-width: 1; }
+.grafico .asse { stroke: var(--testo-tenue); stroke-width: 1; }
+.grafico .soglia { stroke: var(--accento); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.grafico text { font: 400 12px var(--font); fill: var(--testo-tenue); font-variant-numeric: tabular-nums; }
+.grafico text.etichetta-soglia { fill: var(--accento); font-weight: 700; }
+.grafico .barra-tenuta { fill: var(--testo-tenue); }
+.grafico .barra-persa { fill: var(--muro-perso); stroke: var(--sbagliato); stroke-width: 1; stroke-dasharray: 3 2; }
+.grafico figcaption { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--s1) var(--s3); margin-top: var(--s1); color: var(--testo-tenue); }
+.voce { display: inline-flex; align-items: center; gap: var(--s1); }
+.campione { width: 16px; height: 16px; display: inline-block; }
+.campione.tenuto { background: var(--testo-tenue); }
+.campione.perso { background: var(--muro-perso); border: 1px dashed var(--sbagliato); }
+
+.confronto { text-align: center; margin: var(--s3) 0; display: grid; gap: var(--s1); }
+.confronto p { margin: 0; }
+
+.prossimo {
+  text-align: center; margin: 0;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--linea);
+  font-variant-numeric: tabular-nums;
+}
+.prossimo a { font-weight: 700; }
+.record { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); border-bottom: 1px solid var(--linea); padding: var(--s2) 0; }
+.record div { display: flex; flex-direction: column; align-items: center; }
+.record span { color: var(--testo-tenue); }
+.record strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+.fine { display: grid; gap: var(--s2); margin-top: var(--s4); }
+.avviso { text-align: center; color: var(--giusto); margin: 0; }
+
+.serie { margin-bottom: var(--s1); }
+#bentornato { margin-bottom: var(--s2); }
+#bentornato .link { margin-bottom: 0; }
+#bentornato:not([hidden]) + #regole:not([hidden]) { border-top: 1px solid var(--linea); padding-top: var(--s2); }
+
+[tabindex="-1"]:focus { outline: none; }
+
+.entra { padding: var(--s2) 0 0; }
+.entra .esito { text-align: center; margin: 0; }
+.entra .esito .link { min-height: auto; }
+.entra form { padding-top: var(--s1); }
+.proposta { margin-top: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--linea); text-align: center; }
+.proposta p { margin-bottom: var(--s1); }
+.proposta-bottoni { display: flex; justify-content: center; align-items: center; gap: var(--s3); }
+.consenso span .tenue { white-space: nowrap; }
