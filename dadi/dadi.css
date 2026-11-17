@@ -104,6 +104,8 @@ body.giocando .intestazione, body.giocando h1, body.giocando .data { display: no
 .grafico .soglia { stroke: var(--accento); stroke-width: 1.5; stroke-dasharray: 4 3; }
 .grafico text { font: 400 12px var(--font); fill: var(--testo-tenue); font-variant-numeric: tabular-nums; }
 .grafico text.etichetta-soglia { fill: var(--accento); font-weight: 700; }
+.grafico text.tiri-turno { fill: var(--testo); paint-order: stroke; stroke: var(--superficie); stroke-width: 3px; }
+.grafico .totale-tiri { flex-basis: 100%; text-align: center; }
 .grafico .barra-tenuta { fill: var(--testo-tenue); }
 .grafico .barra-persa { fill: var(--muro-perso); stroke: var(--sbagliato); stroke-width: 1; stroke-dasharray: 3 2; }
 .grafico figcaption { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--s1) var(--s3); margin-top: var(--s1); color: var(--testo-tenue); }
