@@ -1,0 +1,127 @@
+/* Grafica dei ponti del giorno. Regole: skill "stile-interfacce". */
+
+h1 { text-align: center; font-size: 24px; margin: 0; }
+.data { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s2); }
+.tenue { color: var(--testo-tenue); }
+.bottone.largo { width: 100%; }
+
+.regole { margin: 0 0 var(--s2); padding-left: var(--s3); }
+.regole li { margin-bottom: var(--s1); }
+
+.link {
+  display: inline-flex; align-items: center; gap: var(--s1);
+  min-height: var(--s6); padding: 0;
+  font: 400 16px var(--font); color: var(--testo);
+  background: none; border: 0; text-decoration: underline; cursor: pointer;
+}
+
+/* --- l'esempio nelle regole --- */
+.esempio { display: block; width: 100%; max-width: 240px; margin: 0 auto var(--s2); }
+.esempio line { stroke: var(--testo); stroke-width: 3; }
+.esempio circle { fill: var(--superficie); stroke: var(--testo); stroke-width: 2; }
+.esempio text { font: 700 24px var(--font); fill: var(--testo); text-anchor: middle; }
+
+/* --- in alto: il cronometro --- */
+.cruscotto { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s2); margin-bottom: var(--s1); }
+.cronometro { margin: 0; }
+.cronometro strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.cruscotto .tenue { margin: 0; text-align: right; }
+
+/* --- la tavola con le isole --- */
+.tavola {
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--s2);
+  padding: var(--s1);
+}
+#tavola {
+  display: block; width: 100%; height: auto;
+  touch-action: none;              /* il dito trascina i ponti, non la pagina */
+  -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#tavola .punto { fill: var(--linea); }
+#tavola .ponte { stroke: var(--testo); stroke-width: 8; stroke-linecap: round; }
+#tavola .ponte.nuovo { animation: compari .15s ease-out; }
+@keyframes compari { from { opacity: 0; } to { opacity: 1; } }
+#tavola .anteprima { stroke: var(--accento); stroke-width: 8; stroke-dasharray: 10 10; stroke-linecap: round; }
+#tavola .isola circle { fill: var(--superficie); stroke: var(--testo); stroke-width: 3; }
+#tavola .isola text { font: 700 44px var(--font); fill: var(--testo); text-anchor: middle; dominant-baseline: central; }
+/* isola con tutti i suoi ponti: si "spegne" */
+#tavola .isola.completa circle { fill: var(--fondo); stroke: var(--testo-tenue); }
+#tavola .isola.completa text { fill: var(--testo-tenue); font-weight: 400; }
+/* troppi ponti */
+#tavola .isola.troppi circle { stroke: var(--sbagliato); stroke-width: 5; }
+#tavola .isola.troppi text { fill: var(--sbagliato); }
+/* isola scelta (il primo tocco) */
+#tavola .isola.scelta circle { fill: var(--accento); stroke: var(--accento-scuro); }
+#tavola .isola.scelta text { fill: var(--su-accento); font-weight: 700; }
+#tavola .isola.vicina circle { stroke: var(--accento); stroke-width: 5; }
+#tavola .ponte.lampeggia { stroke: var(--sbagliato); animation: lampeggia .6s ease-out; }
+@keyframes lampeggia { 0%, 50% { opacity: 1; } 25%, 75% { opacity: .3; } }
+#tavola.risolta .isola circle { stroke: var(--giusto); }
+@media (prefers-reduced-motion: reduce) { #tavola .ponte.nuovo, #tavola .ponte.lampeggia { animation: none; } }
+
+.messaggio { text-align: center; font-weight: 700; min-height: var(--s6); margin: var(--s1) 0 0; display: flex; align-items: center; justify-content: center; }
+.messaggio.giusto { color: var(--giusto); }
+.messaggio.sbagliato { color: var(--sbagliato); }
+.messaggio .link { font-weight: 400; margin-left: var(--s1); }
+
+.comandi { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+
+body.giocando .intestazione, body.giocando h1, body.giocando .data { display: none; }
+
+/* --- risultato --- */
+.numero-grande { text-align: center; margin: 0; }
+.numero-grande strong { display: block; font-size: 64px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.nuovo-record { text-align: center; font-weight: 700; margin: var(--s1) 0 0; }
+.gia-giocato { text-align: center; color: var(--testo-tenue); margin: 0 0 var(--s1); }
+
+.confronto { text-align: center; margin: var(--s3) 0 0; }
+.confronto p { margin: 0; }
+
+/* grafico dei tempi: barre tenui, la tua nel colore d'accento */
+.grafico { margin: var(--s2) 0 var(--s3); }
+.grafico svg { display: block; width: 100%; height: auto; overflow: visible; }
+.grafico .griglia { stroke: var(--linea); stroke-width: 1; }
+.grafico .asse { stroke: var(--testo-tenue); stroke-width: 1; }
+.grafico .barra { fill: var(--linea); }
+.grafico .barra.tua { fill: var(--accento); }
+.grafico .pallino { fill: var(--testo-tenue); }
+.grafico .pallino.tuo { fill: var(--accento); }
+.grafico .filo { stroke: var(--accento); stroke-width: 1; }
+.grafico text { font: 400 12px var(--font); fill: var(--testo-tenue); font-variant-numeric: tabular-nums; }
+.grafico text.titolo-asse { fill: var(--testo); }
+.grafico text.tu { fill: var(--accento); font-weight: 700; }
+.grafico figcaption { text-align: center; color: var(--testo-tenue); margin-top: var(--s1); }
+
+.prossimo {
+  text-align: center; margin: 0;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--linea);
+  font-variant-numeric: tabular-nums;
+}
+.prossimo a { font-weight: 700; }
+.record { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); border-bottom: 1px solid var(--linea); padding: var(--s2) 0; }
+.record div { display: flex; flex-direction: column; align-items: center; }
+.record span { color: var(--testo-tenue); }
+.record strong { font-size: 32px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+.fine { display: grid; gap: var(--s2); margin-top: var(--s4); }
+.avviso { text-align: center; color: var(--giusto); margin: 0; }
+
+.serie { margin-bottom: var(--s1); }
+#bentornato { margin-bottom: var(--s2); }
+#bentornato .link { margin-bottom: 0; }
+#bentornato:not([hidden]) + #regole:not([hidden]) { border-top: 1px solid var(--linea); padding-top: var(--s2); }
+
+[tabindex="-1"]:focus { outline: none; }
+
+.entra { padding: var(--s2) 0 0; }
+.entra .esito { text-align: center; margin: 0; }
+.entra .esito .link { min-height: auto; }
+.entra form { padding-top: var(--s1); }
+.proposta { margin-top: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--linea); text-align: center; }
+.proposta p { margin-bottom: var(--s1); }
+.proposta-bottoni { display: flex; justify-content: center; align-items: center; gap: var(--s3); }
+.consenso span .tenue { white-space: nowrap; }

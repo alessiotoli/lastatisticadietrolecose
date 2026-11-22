@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>I ponti del giorno</title>
+  <meta name="description" content="Collega tutte le isole con i ponti giusti. Un puzzle al giorno, uguale per tutti: vince chi ci mette di meno.">
+  <meta property="og:title" content="I ponti del giorno · La Statistica Dietro Le Cose">
+  <meta property="og:description" content="Collega tutte le isole. Un puzzle al giorno: quanto ci metti?">
+  <meta name="theme-color" content="#EAF0F4">
+  <link rel="icon" type="image/png" href="../icona.png">
+  <link rel="stylesheet" href="../stile.css">
+  <script src="../tema.js"></script>
+  <script src="../statistiche.js"></script>
+  <link rel="stylesheet" href="ponti.css">
+</head>
+<body>
+  <main class="pagina">
+    <a class="indietro" href="../"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6l6 6"/></svg>Home</a>
+    <p class="intestazione">La Statistica Dietro Le Cose</p>
+    <h1>I ponti del giorno</h1>
+    <p class="data" id="data"></p>
+
+    <!-- 1. REGOLE -->
+    <section id="inizio" class="scheda">
+      <div id="bentornato" hidden>
+        <p class="serie" id="serieInizio"></p>
+        <p>Stesse regole di sempre: collega tutte le isole, il numero dice quanti ponti partono da lì.</p>
+        <button type="button" class="link" id="mostraRegole" aria-expanded="false" aria-controls="regole">Rileggi le regole</button>
+      </div>
+      <div id="regole">
+        <p>Collega tutte le isole con dei ponti. <b>Il numero su ogni isola dice quanti ponti partono da lì.</b></p>
+        <!-- un esempio risolto -->
+        <svg class="esempio" viewBox="0 0 300 200" role="img" aria-label="Esempio: un'isola con 3 ponti, uno doppio verso destra e uno singolo verso il basso">
+          <line x1="50" y1="46" x2="250" y2="46"/><line x1="50" y1="54" x2="250" y2="54"/>
+          <line x1="50" y1="50" x2="50" y2="150"/>
+          <line x1="50" y1="150" x2="250" y2="150"/>
+          <line x1="250" y1="50" x2="250" y2="150"/>
+          <circle cx="50" cy="50" r="22"/><text x="50" y="58">3</text>
+          <circle cx="250" cy="50" r="22"/><text x="250" y="58">3</text>
+          <circle cx="50" cy="150" r="22"/><text x="50" y="158">2</text>
+          <circle cx="250" cy="150" r="22"/><text x="250" y="158">2</text>
+        </svg>
+        <ul class="regole">
+          <li>I ponti sono dritti e <b>non si incrociano</b>. Tra due isole ce ne possono essere al massimo <b>due</b>.</li>
+          <li>Alla fine tutte le isole devono essere collegate tra loro.</li>
+          <li><b>Tocca un'isola e poi una vicina</b> (o trascina dall'una all'altra): un tocco mette un ponte, il secondo lo fa doppio, il terzo lo toglie.</li>
+          <li><b>Un puzzle al giorno</b>, uguale per tutti, e una sola partita. Il lunedì è il più facile, la domenica il più difficile.</li>
+        </ul>
+        <p>Il tempo parte quando premi il bottone: chi finisce prima sale in classifica.</p>
+      </div>
+      <button type="button" class="bottone largo" id="inizia">
+        <!-- Tabler: clock -->
+        <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg>
+        Inizia: parte il tempo
+      </button>
+      <p class="errore-campo" id="erroreInizio" role="alert" hidden>Non riesco a prendere il puzzle di oggi: controlla la connessione e riprova.</p>
+    </section>
+
+    <!-- 2. LA PARTITA -->
+    <section id="partita" hidden>
+      <div class="cruscotto">
+        <p class="cronometro"><span class="solo-lettore">Tempo: </span><strong id="cronometro">0:00</strong></p>
+        <p class="tenue" id="mancano"></p>
+      </div>
+
+      <div class="tavola">
+        <svg id="tavola" role="application" aria-label="Il puzzle: tocca un'isola e poi una vicina per mettere un ponte"></svg>
+      </div>
+
+      <p class="messaggio" id="messaggio" role="status">&nbsp;</p>
+
+      <div class="comandi">
+        <button type="button" class="bottone chiaro" id="annulla" disabled>
+          <!-- Tabler: arrow-back-up -->
+          <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14l-4 -4l4 -4"/><path d="M5 10h11a4 4 0 1 1 0 8h-1"/></svg>
+          Annulla
+        </button>
+        <button type="button" class="bottone chiaro" id="ricomincia" disabled>
+          <!-- Tabler: refresh -->
+          <svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+          <span id="ricominciaTesto">Ricomincia</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. RISULTATO -->
+    <section id="risultato" class="scheda" hidden>
+      <p class="gia-giocato" id="giaGiocato" hidden>Hai già giocato la partita di oggi.</p>
+      <p class="numero-grande" id="titoloRisultato" tabindex="-1"><strong id="rTempo"></strong><span id="rSotto">il tuo tempo</span></p>
+      <p class="nuovo-record" id="nuovoRecord" hidden>Nuovo record</p>
+
+      <!-- i tempi di tutti quelli che hanno finito oggi, con il tuo -->
+      <div class="confronto">
+        <p id="confrontoGiocatori"></p>
+      </div>
+      <figure class="grafico" id="grafico" hidden>
+        <svg id="graficoTempi" viewBox="0 0 320 200" role="img"></svg>
+        <figcaption id="graficoNota"></figcaption>
+      </figure>
+
+      <p class="prossimo" id="prossimo">Torna domani: il prossimo puzzle arriva tra <b id="countdown"></b></p>
+
+      <div class="record" id="bloccoRecord">
+        <div><span>Il tuo record</span><strong id="rRecord"></strong></div>
+        <div><span>Giorni di fila</span><strong id="rSerie"></strong></div>
+      </div>
+
+      <div class="entra" id="entra" hidden>
+        <p class="esito" id="esitoClassifica" role="status" hidden></p>
+
+        <div class="proposta" id="propostaNovita" hidden>
+          <p id="novitaTesto" role="status"></p>
+          <div class="proposta-bottoni">
+            <button type="button" class="bottone chiaro" id="novitaSi">Sì, avvisami</button>
+            <button type="button" class="link" id="novitaNo">No, grazie</button>
+          </div>
+        </div>
+
+        <form id="formClassifica" novalidate hidden>
+          <p><b>Entra in classifica</b><br>Lo fai una volta sola: dai giorni dopo il tempo si salva da solo.</p>
+          <label class="campo">
+            <span>Nome e iniziale del cognome, o nome Instagram <span class="tenue">(lo vedono tutti)</span></span>
+            <input id="nome" name="nome" maxlength="20" autocomplete="nickname" autocapitalize="words" spellcheck="false" placeholder="Mario R. oppure @mario.rossi" required>
+          </label>
+          <label class="campo">
+            <span>Email <span class="tenue">(non la vede nessuno)</span></span>
+            <input id="email" name="email" type="email" maxlength="254" autocomplete="email" inputmode="email" required>
+          </label>
+          <label class="consenso">
+            <input id="consenso" type="checkbox" required>
+            <span>Ho letto l'<a href="../privacy/">informativa sulla privacy</a> e ho almeno 14 anni</span>
+          </label>
+          <label class="consenso">
+            <input id="novita" type="checkbox">
+            <span>Voglio ricevere un'email quando escono giochi nuovi o aggiornamenti <span class="tenue">(facoltativo)</span></span>
+          </label>
+          <p class="errore-campo" id="erroreForm" role="alert" hidden></p>
+          <button type="submit" class="bottone chiaro largo" id="salvaClassifica">Salva il tempo</button>
+        </form>
+      </div>
+
+      <div class="fine">
+        <button type="button" class="bottone largo" id="condividi"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M8.7 10.7l6.6 -3.4"/><path d="M8.7 13.3l6.6 3.4"/></svg>Condividi il risultato</button>
+        <p class="avviso" id="copiato" hidden>Risultato copiato: incollalo dove vuoi.</p>
+        <a class="bottone chiaro largo" id="vediClassifica" href="../classifica/?gioco=ponti"><svg class="icona" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21l8 0"/><path d="M12 17l0 4"/><path d="M7 4l10 0"/><path d="M17 4v8a5 5 0 0 1 -10 0v-8"/><path d="M5 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M19 9m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/></svg>Vedi la classifica</a>
+        <button type="button" class="bottone chiaro largo" id="prova" hidden>Nuovo puzzle di prova</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="../server.js?v=2"></script>
+  <script src="logica.js"></script>
+  <script src="prova.js"></script>
+  <script src="gioco.js"></script>
+</body>
+</html>
