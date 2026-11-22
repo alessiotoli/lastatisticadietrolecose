@@ -62,7 +62,7 @@ h1 { text-align: center; font-size: 24px; margin: 0; }
 #tavola.risolta .isola circle { stroke: var(--giusto); }
 @media (prefers-reduced-motion: reduce) { #tavola .ponte.nuovo, #tavola .ponte.lampeggia { animation: none; } }
 
-.messaggio { text-align: center; font-weight: 700; min-height: var(--s6); margin: var(--s1) 0 0; display: flex; align-items: center; justify-content: center; }
+.messaggio { text-align: center; font-weight: 700; min-height: var(--s6); margin: var(--s1) 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
 .messaggio.giusto { color: var(--giusto); }
 .messaggio.sbagliato { color: var(--sbagliato); }
 .messaggio .link { font-weight: 400; margin-left: var(--s1); }
